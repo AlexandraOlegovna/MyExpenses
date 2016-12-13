@@ -9,3 +9,4 @@
 /comments CommentR POST
 
 /profile ProfileR GET
+/posts/new PostNewR GET
