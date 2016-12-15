@@ -20,13 +20,16 @@ data FileForm = FileForm
 getHomeR :: Handler Html
 getHomeR = do
     (formWidget, formEnctype) <- generateFormPost sampleForm
+
     let submission = Nothing :: Maybe FileForm
         handlerName = "getHomeR" :: Text
+
     defaultLayout $ do
         let (commentFormId, commentTextareaId, commentListId) = commentIds
         aDomId <- newIdent
         setTitle "Welcome To Yesod!"
         $(widgetFile "homepage")
+
 
 postHomeR :: Handler Html
 postHomeR = do

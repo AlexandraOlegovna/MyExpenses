@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- <link rel="icon" href="../../favicon.ico"> -->
+
+    <title>Signin Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  </head>
+
+  <body>
+
+    <div class="container center">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading headline">Please <br> Register or Sign in</h2>
+        <label for="inputEmail" class="sr-only">Username</label>
+        <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <!-- <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div> -->
+        <div class="signButtons">
+            <button class="btn btn-lg btn-primary btn-block leftB" type="submit">Register</button>
+            <button class="btn btn-lg btn-primary btn-block rightB" type="submit">Sign in</button>
+        </div>
+      </form>
+
+    </div> <!-- /container -->
+
+<script>
+
+const $login = $( "#inputEmail" );
+
+$login.keyup(e => {
+    $login.val( e.target.value.replace(/[^A-Z0-9]/gi, "") );
+})
+
+</script>
+
+  </body>
+</html>
