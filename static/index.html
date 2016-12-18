@@ -24,21 +24,21 @@
 
     <div class="container center">
 
-      <form class="form-signin">
+      <form class="form-signin" method="POST">
         <h2 class="form-signin-heading headline">Please <br> Register or Sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+        <input name="login" type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
         <span id="helpBlock" class="help-block">Only letters or digits</span>
         <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+        <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required>
         <!-- <div class="checkbox">
           <label>
             <input type="checkbox" value="remember-me"> Remember me
           </label>
         </div> -->
         <div class="signButtons">
-            <button class="btn btn-lg btn-primary btn-block leftB" type="submit">Register</button>
-            <button class="btn btn-lg btn-primary btn-block rightB" type="submit">Sign in</button>
+            <button id="leftB" class="btn btn-lg btn-primary btn-block leftB" type="submit" >Register</button>
+            <button class="btn btn-lg btn-primary btn-block rightB" type="submit" onclick="click()">Sign in</button>
         </div>
       </form>
 
@@ -51,6 +51,23 @@ const $login = $( "#inputEmail" );
 $login.keyup(e => {
     $login.val( e.target.value.replace(/[^A-Z0-9]/gi, "") );
 })
+
+
+// $('leftB').submit()(_ => {
+//     xhr = new XMLHttpRequest();
+//     var url = "url";
+//     xhr.open("POST", url, true);
+//     xhr.setRequestHeader("Content-type", "application/json");
+//     xhr.onreadystatechange = function () {
+//         if (xhr.readyState == 4 && xhr.status == 200) {
+//             var json = JSON.parse(xhr.responseText);
+//             console.log(json.email + ", " + json.password)
+//         }
+//     }
+//     var data = JSON.stringify({"email":"hey@mail.com","password":"101010"});
+//     xhr.send(data);
+//     console.log("111");
+// })
 
 </script>
 
