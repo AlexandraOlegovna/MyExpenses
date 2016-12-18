@@ -17,65 +17,56 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
+    <link href="main.css" rel="stylesheet">
 
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src ="vue_template.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-datepicker.min.js"> </script>
 </head>
 <body>
 
-    <table class="table table-striped">
-        <thead> <tr> <th>Type</th> <th>Theme</th> <th>Item</th> <th>Cost</th> <th>Data</th> </tr> </thead>
-        <tbody>
-            <tr>
-                <td>Mark</td> <td>Otto</td> <td>@mdo</td> <td> </td> <td> </td>
-            </tr>
-            <tr>
-                <td>Jacob</td> <td>Thornton</td> <td>@fat</td> <td> </td> <td> </td>
-            </tr>
-            <tr>
-                <td>Larry</td> <td>the Bird</td> <td>@twitter</td> <td> </td> <td> </td>
-            </tr>
-
-            <tr>
-                <td>
-                <select class="form-control">
-                      <option>+</option>
-                      <option>-</option>
-                    </select></td>
-                <td>
-                <select class="form-control">
-                      <option>Shop</option>
-                      <option>School</option>
-                      <option>Appartment</option>
-                      <option>Clothes</option>
-                    </select></td>
-                <td><form class="form-inline">
-                      <div class="form-group">
-                        <input type="text" class="form-control" id="InputItem" placeholder="Item Name">
-                      </div></form>
-                </td>
-                <td>
-                    <form class="form-inline">
-                            <input type="number" min="1" class="form-control" id="Price" placeholder="Item Price">
-                          </div></form>
-                </td>
-                <td>
-                    <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
+<!-- demo root element -->
+<div id="demo">
+  <form id="search">
+    Search <input name="query" v-model="searchQuery">
+  </form>
+  <demo-grid
+    :data="gridData"
+    :columns="gridColumns"
+    :filter-key="searchQuery">
+  </demo-grid>
+</div>
 
 <script>
     $.fn.datepicker.defaults.format = "dd.mm.yyyy";
 </script>
+
+<script type="text/x-template" id="grid-template">
+<div class = "table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th v-for="key in columns"
+          @click="sortBy(key)"
+          :class="{ active: sortKey == key }">
+          {{ key | capitalize }}
+          <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
+          </span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="entry in filteredData">
+        <td v-for="key in columns">
+          {{entry[key]}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</script>
+
 </body>
 </html>
