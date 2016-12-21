@@ -3,6 +3,13 @@ User
     password Text Maybe
     UniqueUser ident
     deriving Typeable
+Expenses
+    userId UserId
+    type Text
+    theme Text
+    item Text
+    cost Int
+    date Day
 Email
     email Text
     userId UserId Maybe

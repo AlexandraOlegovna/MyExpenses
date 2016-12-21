@@ -8,7 +8,9 @@ import Data.Maybe
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
 import Text.Julius (RawJS (..))
 import Text.Hamlet (HtmlUrl, hamlet)
--- import Yesod.Json
+import Database.Persist
+import Database.Persist.Sqlite
+import Database.Persist.TH
 
 -- Define our data that will be used for creating the form.
 data FileForm = FileForm
@@ -56,18 +58,24 @@ getHomeR = sendFile "text/html" "static/index.html"
 --         setTitle "Welcome To Yesod!"
 --         $(widgetFile "homepage")
 
-
--- postHomeR :: Handler Html
+postHomeR :: Handler Html
 postHomeR = do
     -- lp <- requireJsonBody :: Handler LogPass -- get the json body as Foo (assumes FromJSON instance)
     -- getParameters <- reqGetParams <$> getRequest
     (Just lgValueMaybe) <- lookupPostParam "login"
     (Just pasValueMaybe) <- lookupPostParam "password"
-    -- let loginMaybe = lookup "login" getParameters :: Maybe Text
-    -- let passwordMaybe = lookup "password" getParameters :: Maybe Text
-    -- let lp = LogPass (fromJust loginMaybe) (fromJust passwordMaybe)
-    setMessage $ toHtml $ "You previously visited at: " ++ show (lgValueMaybe) ++ show (pasValueMaybe)
-    defaultLayout [whamlet|<p>Try refreshing|]
+    userId <- runDB $ insert $ User (lgValueMaybe) (Just pasValueMaybe)
+    users <- runDB $ selectList [] []
+    defaultLayout $
+        [whamlet|
+                $forall Entity userId user <- users
+                    <h1> #{userIdent user} by #{show (userPassword user)}
+        |]
+    -- userId <- runDB $ insert $ User (lgValueMaybe) (Just pasValueMaybe)
+    -- maybeUser <- runDB $ get userId
+    -- case maybeUser of
+        -- Nothing -> defaultLayout [whamlet|<p>No|]
+        -- _ -> defaultLayout [whamlet|<p>Yes|]
 
     -- ((result, formWidget), formEnctype) <- runFormPost sampleForm
     -- let handlerName = "postHomeR" :: Text
