@@ -1,14 +1,37 @@
 module Handler.Home where
 
 import Import
+-- import Text.Hamlet (shamlet)
+-- import Text.Blaze.Html.Renderer.String (renderHtml)
+import Data.Text
+import Data.Maybe
 import Yesod.Form.Bootstrap3 (BootstrapFormLayout (..), renderBootstrap3)
 import Text.Julius (RawJS (..))
+import Text.Hamlet (HtmlUrl, hamlet)
+-- import Yesod.Json
 
 -- Define our data that will be used for creating the form.
 data FileForm = FileForm
     { fileInfo :: FileInfo
     , fileDescription :: Text
     }
+
+data LogPass = LogPass
+    {   login :: Text,
+        password :: Text
+    }
+
+instance ToJSON LogPass where
+    toJSON LogPass {..} = object
+        [ "login" .= login
+        , "password"  .= password
+        ]
+
+instance FromJSON LogPass where
+    parseJSON (Object o) = LogPass
+        <$> o .: "login"
+        <*> o .: "password"
+    parseJSON _ = fail "Invalid todo"
 
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
@@ -35,18 +58,28 @@ getHomeR = sendFile "text/html" "static/index.html"
 
 
 -- postHomeR :: Handler Html
--- postHomeR = do
---     ((result, formWidget), formEnctype) <- runFormPost sampleForm
---     let handlerName = "postHomeR" :: Text
---         submission = case result of
---             FormSuccess res -> Just res
---             _ -> Nothing
---
---     defaultLayout $ do
---         let (commentFormId, commentTextareaId, commentListId) = commentIds
---         aDomId <- newIdent
---         setTitle "Welcome To Yesod!"
---         $(widgetFile "homepage")
+postHomeR = do
+    -- lp <- requireJsonBody :: Handler LogPass -- get the json body as Foo (assumes FromJSON instance)
+    -- getParameters <- reqGetParams <$> getRequest
+    (Just lgValueMaybe) <- lookupPostParam "login"
+    (Just pasValueMaybe) <- lookupPostParam "password"
+    -- let loginMaybe = lookup "login" getParameters :: Maybe Text
+    -- let passwordMaybe = lookup "password" getParameters :: Maybe Text
+    -- let lp = LogPass (fromJust loginMaybe) (fromJust passwordMaybe)
+    setMessage $ toHtml $ "You previously visited at: " ++ show (lgValueMaybe) ++ show (pasValueMaybe)
+    defaultLayout [whamlet|<p>Try refreshing|]
+
+    -- ((result, formWidget), formEnctype) <- runFormPost sampleForm
+    -- let handlerName = "postHomeR" :: Text
+    --     submission = case result of
+    --         FormSuccess res -> Just res
+    --         _ -> Nothing
+    --
+    -- defaultLayout $ do
+    --     let (commentFormId, commentTextareaId, commentListId) = commentIds
+    --     aDomId <- newIdent
+    --     setTitle "Welcome To Yesod!"
+    --     $(widgetFile "homepage")
 --
 -- sampleForm :: Form FileForm
 -- sampleForm = renderBootstrap3 BootstrapBasicForm $ FileForm

@@ -24,7 +24,7 @@
 
     <div class="container center">
 
-      <form class="form-signin" method="POST">
+      <form class="form-signin" method="POST" name="form" id="formRegisterSignIn" onsubmit="myFunction()">
         <h2 class="form-signin-heading headline">Please <br> Register or Sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
         <input name="login" type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
@@ -38,7 +38,7 @@
         </div> -->
         <div class="signButtons">
             <button id="leftB" class="btn btn-lg btn-primary btn-block leftB" type="submit" >Register</button>
-            <button class="btn btn-lg btn-primary btn-block rightB" type="submit" onclick="click()">Sign in</button>
+            <button class="btn btn-lg btn-primary btn-block rightB" type="submit">Sign in</button>
         </div>
       </form>
 
@@ -52,22 +52,46 @@ $login.keyup(e => {
     $login.val( e.target.value.replace(/[^A-Z0-9]/gi, "") );
 })
 
-
-// $('leftB').submit()(_ => {
-//     xhr = new XMLHttpRequest();
-//     var url = "url";
-//     xhr.open("POST", url, true);
-//     xhr.setRequestHeader("Content-type", "application/json");
-//     xhr.onreadystatechange = function () {
-//         if (xhr.readyState == 4 && xhr.status == 200) {
-//             var json = JSON.parse(xhr.responseText);
-//             console.log(json.email + ", " + json.password)
-//         }
+// const $form = $( "#formRegisterSignIn" );
+//
+// // $form.submit = function (e) {
+// function myFunction(e){
+//   // stop the regular form submission
+//   //e.preventDefault();
+//
+//   // collect the form data while iterating over the inputs
+//   var data = {};
+//   for (var i = 0, ii = form.length; i < ii; ++i) {
+//     var input = form[i];
+//     if (input.name) {
+//       data[input.name] = input.value;
 //     }
-//     var data = JSON.stringify({"email":"hey@mail.com","password":"101010"});
-//     xhr.send(data);
-//     console.log("111");
-// })
+//   }
+
+// $.ajax({
+// url: "/json",
+// type: "POST",
+// success: function (data) {
+//     alert (data.login + " - " + data.password);
+// },
+// error: function(xhr, status, error) {
+//   alert(xhr.responseText);
+// },
+// dataType: "json"
+// });
+
+  // construct an HTTP request
+  // var xhr = new XMLHttpRequest();
+  // xhr.open(form.method, form.action, true);
+  // xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+
+  // send the collected data as JSON
+  // xhr.send(JSON.stringify(data));
+
+  // xhr.onloadend = function () {
+  //   // done
+  // };
+};
 
 </script>
 
