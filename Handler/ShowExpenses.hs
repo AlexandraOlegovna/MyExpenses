@@ -2,8 +2,10 @@ module Handler.ShowExpenses where
 
 import Import
 
-getShowExpensesR :: Int -> Handler Html
-getShowExpensesR int = sendFile "text/html" "static/main.html"
+getShowExpensesR :: Handler ()
+getShowExpensesR = undefined
 
-postShowExpensesR :: Int -> Handler Html
-postShowExpensesR int = error "Not yet implemented: postShowExpensesR"
+
+
+postShowExpensesR :: Handler ()
+postShowExpensesR = undefined

@@ -1,8 +1,8 @@
 User
-    ident Text
-    password Text Maybe
-    UniqueUser ident
-    deriving Typeable
+    login Text
+    password Text
+    UniqueUser login
+    deriving Show
 Expenses
     userId UserId
     type Text

@@ -1,3 +1,4 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Handler.Home where
 
 import Import
@@ -11,29 +12,10 @@ import Text.Hamlet (HtmlUrl, hamlet)
 import Database.Persist
 import Database.Persist.Sqlite
 import Database.Persist.TH
+import qualified Data.ByteString.Char8 as S8
+import qualified Data.Text as T
+import Web.Cookie
 
--- Define our data that will be used for creating the form.
-data FileForm = FileForm
-    { fileInfo :: FileInfo
-    , fileDescription :: Text
-    }
-
-data LogPass = LogPass
-    {   login :: Text,
-        password :: Text
-    }
-
-instance ToJSON LogPass where
-    toJSON LogPass {..} = object
-        [ "login" .= login
-        , "password"  .= password
-        ]
-
-instance FromJSON LogPass where
-    parseJSON (Object o) = LogPass
-        <$> o .: "login"
-        <*> o .: "password"
-    parseJSON _ = fail "Invalid todo"
 
 -- This is a handler function for the GET request method on the HomeR
 -- resource pattern. All of your resource patterns are defined in
@@ -58,18 +40,42 @@ getHomeR = sendFile "text/html" "static/index.html"
 --         setTitle "Welcome To Yesod!"
 --         $(widgetFile "homepage")
 
+postRegisterR :: Handler Text
+postRegisterR = do
+    (Just login) <- lookupPostParam "login"
+    (Just password) <- lookupPostParam "password"
+    maybeUser <- runDB $ getBy $ UniqueUser login
+    case maybeUser of
+        Nothing -> do
+            runDB $ insert $ User login password
+            setCookie $ def { setCookieName = "login", setCookieValue = S8.pack $ T.unpack $ login }
+            return "OK"
+        _ -> return "Error"
+
+postSignInR :: Handler Text
+postSignInR = do
+    (Just login) <- lookupPostParam "login"
+    (Just password) <- lookupPostParam "password"
+    maybeUser <- runDB $ getBy $ UniqueUser login
+    case maybeUser of
+        Nothing ->
+            return "Error"
+        _ -> do
+            setCookie $ def { setCookieName = "login", setCookieValue = S8.pack $ T.unpack $ login }
+            return "OK"
+
 postHomeR :: Handler Html
-postHomeR = do
+postHomeR = undefined
     -- lp <- requireJsonBody :: Handler LogPass -- get the json body as Foo (assumes FromJSON instance)
     -- getParameters <- reqGetParams <$> getRequest
     -- (Just lgValueMaybe) <- lookupPostParam "login"
     -- (Just pasValueMaybe) <- lookupPostParam "password"
     -- userId <- runDB $ insert $ User (lgValueMaybe) (Just pasValueMaybe)
     -- users <- runDB $ selectList [] []
-    maybeUser <- runDB $ getBy $ UniqueUser "aaaaaaa"
-    case maybeUser of
-        Nothing -> defaultLayout [whamlet|<p>No|]
-        _ -> defaultLayout [whamlet|<p>Yes|]
+    -- maybeUser <- runDB $ getBy $ UniqueUser "aaaaaaa"
+    -- case maybeUser of
+    --     Nothing -> defaultLayout [whamlet|<p>No|]
+    --     _ -> defaultLayout [whamlet|<p>Yes|]
     -- defaultLayout $
     --     [whamlet|
     --             $forall Entity userId user <- users

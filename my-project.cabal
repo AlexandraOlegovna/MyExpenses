@@ -91,6 +91,7 @@ library
                  , time
                  , case-insensitive
                  , wai
+                 , cookie
 
 executable         my-project
     if flag(library-only)

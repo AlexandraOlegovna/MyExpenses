@@ -24,7 +24,7 @@
 
     <div class="container center">
 
-      <form class="form-signin" method="POST" name="form" id="formRegisterSignIn" onsubmit="myFunction()">
+      <form class="form-signin">
         <h2 class="form-signin-heading headline">Please <br> Register or Sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
         <input name="login" type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
@@ -37,8 +37,8 @@
           </label>
         </div> -->
         <div class="signButtons">
-            <button id="leftB" class="btn btn-lg btn-primary btn-block leftB" type="submit" >Register</button>
-            <button class="btn btn-lg btn-primary btn-block rightB" type="submit">Sign in</button>
+            <button id="register" class="btn btn-lg btn-primary btn-block leftB">Register</button>
+            <button id="signin" class="btn btn-lg btn-primary btn-block rightB">Sign in</button>
         </div>
       </form>
 
@@ -48,37 +48,32 @@
 
 const $login = $( "#inputEmail" );
 
+
 $login.keyup(e => {
     $login.val( e.target.value.replace(/[^A-Z0-9]/gi, "") );
 })
 
-// const $form = $( "#formRegisterSignIn" );
-//
-// // $form.submit = function (e) {
-// function myFunction(e){
-//   // stop the regular form submission
-//   //e.preventDefault();
-//
-//   // collect the form data while iterating over the inputs
-//   var data = {};
-//   for (var i = 0, ii = form.length; i < ii; ++i) {
-//     var input = form[i];
-//     if (input.name) {
-//       data[input.name] = input.value;
-//     }
-//   }
+$( "#register" ).click( e => {
+e.preventDefault();
+$.post( "/register", { login: $login.val(), password: $("#inputPassword" ).val()})
+    .done(function( msg ) {
+        if (msg == "OK")
+            document.location.pathname = "/show";
+        else
+            ;//TODO
+  })
+})
 
-// $.ajax({
-// url: "/json",
-// type: "POST",
-// success: function (data) {
-//     alert (data.login + " - " + data.password);
-// },
-// error: function(xhr, status, error) {
-//   alert(xhr.responseText);
-// },
-// dataType: "json"
-// });
+$( "#signin" ).click( e => {
+e.preventDefault();
+$.post( "/signin", { login: $login.val(), password: $("#inputPassword" ).val()})
+    .done(function( msg ) {
+        if (msg == "OK")
+            document.location.pathname = "/show";
+        else
+            ;//TODO
+  })
+})
 
   // construct an HTTP request
   // var xhr = new XMLHttpRequest();
@@ -91,7 +86,7 @@ $login.keyup(e => {
   // xhr.onloadend = function () {
   //   // done
   // };
-};
+// };
 
 </script>
 

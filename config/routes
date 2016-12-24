@@ -3,6 +3,7 @@
 /favicon.ico FaviconR GET
 
 / HomeR GET POST
+/register RegisterR POST
+/signin SignInR POST
 
-
-/show/!#Int ShowExpensesR GET POST
+/show ShowExpensesR GET POST
