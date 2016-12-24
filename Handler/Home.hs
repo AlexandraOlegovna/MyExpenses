@@ -62,15 +62,19 @@ postHomeR :: Handler Html
 postHomeR = do
     -- lp <- requireJsonBody :: Handler LogPass -- get the json body as Foo (assumes FromJSON instance)
     -- getParameters <- reqGetParams <$> getRequest
-    (Just lgValueMaybe) <- lookupPostParam "login"
-    (Just pasValueMaybe) <- lookupPostParam "password"
-    userId <- runDB $ insert $ User (lgValueMaybe) (Just pasValueMaybe)
-    users <- runDB $ selectList [] []
-    defaultLayout $
-        [whamlet|
-                $forall Entity userId user <- users
-                    <h1> #{userIdent user} by #{show (userPassword user)}
-        |]
+    -- (Just lgValueMaybe) <- lookupPostParam "login"
+    -- (Just pasValueMaybe) <- lookupPostParam "password"
+    -- userId <- runDB $ insert $ User (lgValueMaybe) (Just pasValueMaybe)
+    -- users <- runDB $ selectList [] []
+    maybeUser <- runDB $ getBy $ UniqueUser "aaaaaaa"
+    case maybeUser of
+        Nothing -> defaultLayout [whamlet|<p>No|]
+        _ -> defaultLayout [whamlet|<p>Yes|]
+    -- defaultLayout $
+    --     [whamlet|
+    --             $forall Entity userId user <- users
+    --                 <h1> #{userIdent user} by #{show (userPassword user)}
+    --     |]
     -- userId <- runDB $ insert $ User (lgValueMaybe) (Just pasValueMaybe)
     -- maybeUser <- runDB $ get userId
     -- case maybeUser of
