@@ -11,12 +11,12 @@ getShowExpensesR = do
 
 
 
-postShowExpensesR :: Handler Text
+postShowExpensesR :: Handler Value
 postShowExpensesR = do
     (Just login) <- lookupCookie "login"
     (Just (Entity userId _)) <- runDB $ getBy $ UniqueUser login
     usersExpenses <- runDB $ selectList [ExpensesUserId ==. userId] []
-    return "OK"
+    returnJson usersExpenses
 
     -- EXAMPLE:
     -- personId <- insert $ Person "Michael" "Snoyman" 26

@@ -1,14 +1,14 @@
-User
+User json
     login Text
     password Text
     UniqueUser login
     deriving Show
-Expenses
+Expenses json
     userId UserId
-    type Text
+    kind Text
     theme Text
     item Text
     cost Int
-    date Day
+    date Text
 
  -- By default this file is used in Model.hs (which is imported by Foundation.hs)
