@@ -52,7 +52,8 @@ Vue.component('demo-grid', {
 })
 
 // bootstrap the demo
-window.onload = function () {var demo = new Vue({
+var demo;
+window.onload = function () {demo = new Vue({
   el: '#demo',
   data: {
     searchQuery: '',
@@ -60,26 +61,7 @@ window.onload = function () {var demo = new Vue({
     gridData: [
       { type: '+', theme: 'Shop', item: "none", cost: 100.00, date: '12.08.2016'},
       { type: '+', theme: 'School', item: "none", cost: 120.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'},
       { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'}
-
-
     ]
   }
 });
