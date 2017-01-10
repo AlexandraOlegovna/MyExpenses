@@ -3,7 +3,8 @@ Vue.component('demo-grid', {
   props: {
     data: Array,
     columns: Array,
-    filterKey: String
+    filterKey: String,
+    icons: Object
   },
   data: function () {
     var sortOrders = {}
@@ -52,17 +53,29 @@ Vue.component('demo-grid', {
 })
 
 // bootstrap the demo
-var demo;
-window.onload = function () {demo = new Vue({
-  el: '#demo',
-  data: {
-    searchQuery: '',
-    gridColumns: ['type', 'theme', 'item', 'cost', 'date'],
-    gridData: [
-      { type: '+', theme: 'Shop', item: "none", cost: 100.00, date: '12.08.2016'},
-      { type: '+', theme: 'School', item: "none", cost: 120.00, date: '12.08.2016'},
-      { type: '+', theme: 'Appartment', item: "none", cost: 1000.00, date: '12.08.2016'}
-    ]
-  }
-});
+var app;
+
+window.onload = function () {
+    app = new Vue({
+      el: '#demo',
+      data: {
+        searchQuery: '',
+        gridColumns: ['kind', 'theme', 'item', 'cost', 'date'],
+        gridIcons: {
+            kind: "glyphicon-stats",
+            theme: "glyphicon-home",
+            item: "glyphicon-shopping-cart",
+            cost: "glyphicon-usd",
+            date: "glyphicon-calendar"
+        },
+        gridData: [
+        //   { type: '+', theme: 'Shop', item: "none", cost: 100.00, date: '12.08.2016'},
+        ]
+      }
+    });
+
+    $.post("/show", {}, 'json').done (data => {
+            app.gridData = data;
+            console.log(data);
+        });
 }

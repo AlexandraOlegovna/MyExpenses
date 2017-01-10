@@ -35,7 +35,8 @@
   <demo-grid
     :data="gridData"
     :columns="gridColumns"
-    :filter-key="searchQuery">
+    :filter-key="searchQuery"
+    :icons="gridIcons">
   </demo-grid>
 </div>
 
@@ -51,6 +52,7 @@
         <th v-for="key in columns"
           @click="sortBy(key)"
           :class="{ active: sortKey == key }">
+          <span class="glyphicon" :class="icons[key]" aria-hidden="true"></span>
           {{ key | capitalize }}
           <span class="arrow" :class="sortOrders[key] > 0 ? 'asc' : 'dsc'">
           </span>
@@ -63,11 +65,10 @@
           {{entry[key]}}
         </td>
       </tr>
+      <!-- <tr><td>hi, pretty! :)</td></tr> -->
     </tbody>
   </table>
 </div>
-
-
 
 
 </script>
