@@ -24,7 +24,7 @@
 
     <div class="container center">
 
-      <form class="form-signin">
+      <form class="form-signin" id="form">
         <h2 class="form-signin-heading headline">Please <br> Register or Sign in</h2>
         <label for="inputEmail" class="sr-only">Username</label>
         <input name="login" type="text" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
@@ -37,8 +37,8 @@
           </label>
         </div> -->
         <div class="signButtons">
-            <button id="register" class="btn btn-lg btn-primary btn-block leftB">Register</button>
-            <button id="signin" class="btn btn-lg btn-primary btn-block rightB">Sign in</button>
+            <button id="register" type="submit" class="btn btn-lg btn-primary btn-block leftB">Register</button>
+            <button id="signin" type="submit" class="btn btn-lg btn-primary btn-block rightB">Sign in</button>
         </div>
       </form>
 
@@ -53,40 +53,27 @@ $login.keyup(e => {
     $login.val( e.target.value.replace(/[^A-Z0-9]/gi, "") );
 })
 
+
+var url = "";
+
 $( "#register" ).click( e => {
-e.preventDefault();
-$.post( "/register", { login: $login.val(), password: $("#inputPassword" ).val()})
-    .done(function( msg ) {
-        if (msg == "OK")
-            document.location.pathname = "/show";
-        else
-            ;//TODO
-  })
+    url = "/register"
 })
 
 $( "#signin" ).click( e => {
-e.preventDefault();
-$.post( "/signin", { login: $login.val(), password: $("#inputPassword" ).val()})
-    .done(function( msg ) {
-        if (msg == "OK")
-            document.location.pathname = "/show";
-        else
-            ;//TODO
-  })
+    url = "/signin"
 })
 
-  // construct an HTTP request
-  // var xhr = new XMLHttpRequest();
-  // xhr.open(form.method, form.action, true);
-  // xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-  // send the collected data as JSON
-  // xhr.send(JSON.stringify(data));
-
-  // xhr.onloadend = function () {
-  //   // done
-  // };
-// };
+$( "#form" ).submit(e => {
+    e.preventDefault();
+    $.post( url, { login: $login.val(), password: $("#inputPassword" ).val()})
+        .done(function( msg ) {
+            if (msg == "OK")
+                document.location.pathname = "/show";
+            else
+                ;//TODO
+      })
+});
 
 </script>
 

@@ -27,22 +27,56 @@
 </head>
 <body>
 
+<div id="demo">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">My Expenses</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Table <span class="sr-only">(current)</span></a></li>
+        <li><a href="#">Plot</a></li>
+      </ul>
+      <form class="navbar-form navbar-left">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" v-model="searchQuery">
+        </div>
+        <button class="btn btn-default">Add</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Sign Out</a></li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+
 <!-- demo root element -->
-<div id="demo" class="container">
-  <form id="search">
-    Search <input name="query" v-model="searchQuery">
-  </form>
+<div class="container">
+  <!-- <form id="search"> -->
+    <!-- Search <input name="query" > -->
+  <!-- </form> -->
+
   <demo-grid
     :data="gridData"
     :columns="gridColumns"
     :filter-key="searchQuery"
     :icons="gridIcons">
+
   </demo-grid>
 </div>
+</div>
 
-<script>
-    $.fn.datepicker.defaults.format = "dd.mm.yyyy";
-</script>
 
 <script type="text/x-template" id="grid-template">
 <div class = "table-responsive">
@@ -60,6 +94,42 @@
       </tr>
     </thead>
     <tbody>
+        <tr>
+            <td>
+                <select id="kind" class="form-control">
+                      <option>+</option>
+                      <option>-</option>
+                    </select>
+            </td>
+            <td>
+            <select id="theme" class="form-control">
+                  <option>Shop</option>
+                  <option>School</option>
+                  <option>Appartment</option>
+                  <option>Clothes</option>
+                </select>
+            </td>
+            <td><form class="form-inline">
+                  <div class="form-group">
+                    <input id="item" type="text" class="form-control" placeholder="Item Name">
+                  </div></form>
+            </td>
+            <td>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <input id="cost" type="number" min="1" class="form-control" placeholder="Item Price">
+                </div></form>
+            </td>
+            <td>
+                <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
+                    <input id="date" type="text" class="form-control">
+                    <div class="input-group-addon">
+                        <span class="glyphicon glyphicon-th"></span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
       <tr v-for="entry in filteredData">
         <td v-for="key in columns">
           {{entry[key]}}
@@ -70,6 +140,18 @@
   </table>
 </div>
 
+</script>
+
+<script>
+    $.fn.datepicker.defaults.format = "dd.mm.yyyy";
+</script>
+
+
+<script>
+
+function add_click(){
+
+}
 
 </script>
 
