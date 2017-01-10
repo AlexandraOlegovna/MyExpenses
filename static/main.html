@@ -47,12 +47,12 @@
         <li class="active"><a href="#">Table <span class="sr-only">(current)</span></a></li>
         <li><a href="#">Plot</a></li>
       </ul>
-      <form class="navbar-form navbar-left">
+      <div class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" v-model="searchQuery">
         </div>
-        <button class="btn btn-default">Add</button>
-      </form>
+        <button class="btn btn-default" type="submit" form="add_form">Add</button>
+        </div>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">Sign Out</a></li>
       </ul>
@@ -63,9 +63,6 @@
 
 <!-- demo root element -->
 <div class="container">
-  <!-- <form id="search"> -->
-    <!-- Search <input name="query" > -->
-  <!-- </form> -->
 
   <demo-grid
     :data="gridData"
@@ -80,6 +77,7 @@
 
 <script type="text/x-template" id="grid-template">
 <div class = "table-responsive">
+<form id="add_form">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -96,40 +94,39 @@
     <tbody>
         <tr>
             <td>
-                <select id="kind" class="form-control">
+                <select id="kind" class="form-control" required>
                       <option>+</option>
                       <option>-</option>
                     </select>
             </td>
             <td>
-            <select id="theme" class="form-control">
+            <select id="theme" class="form-control" required>
                   <option>Shop</option>
                   <option>School</option>
                   <option>Appartment</option>
                   <option>Clothes</option>
                 </select>
             </td>
-            <td><form class="form-inline">
+            <td><div class="form-inline">
                   <div class="form-group">
-                    <input id="item" type="text" class="form-control" placeholder="Item Name">
-                  </div></form>
+                    <input id="item" type="text" class="form-control" placeholder="Item Name" required>
+                </div></div>
             </td>
             <td>
-                <form class="form-inline">
+                <div class="form-inline">
                     <div class="form-group">
-                        <input id="cost" type="number" min="1" class="form-control" placeholder="Item Price">
-                </div></form>
+                        <input id="cost" type="number" min="1" class="form-control" placeholder="Item Price" required>
+                </div></div >
             </td>
             <td>
                 <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
-                    <input id="date" type="text" class="form-control">
+                    <input id="date" type="text" class="form-control" required>
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
                     </div>
                 </div>
             </td>
         </tr>
-
       <tr v-for="entry in filteredData">
         <td v-for="key in columns">
           {{entry[key]}}
@@ -138,6 +135,7 @@
       <!-- <tr><td>hi, pretty! :)</td></tr> -->
     </tbody>
   </table>
+</form>
 </div>
 
 </script>
@@ -149,9 +147,31 @@
 
 <script>
 
-function add_click(){
+$(document).ready(function() {
 
-}
+    $(document).on('submit', '#add_form', function(e) {
+            console.log('hi');
+            e.preventDefault();
+            var value = {
+                kind: $('#kind').val(),
+                theme: $('#theme').val(),
+                item: $('#item').val(),
+                cost: $('#cost').val() | 0,
+                date: $('#date').val()
+            };
+
+            $.post( "/add", value)
+                .done(function( msg ) {
+                    if (msg == "OK")
+                    {
+                        app.gridData.push(value);
+
+                    }
+                    else
+                        console.warn(msg);//TODO
+              });
+    });
+})
 
 </script>
 

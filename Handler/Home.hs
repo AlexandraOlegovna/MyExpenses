@@ -55,14 +55,17 @@ postRegisterR = do
 postSignInR :: Handler Text
 postSignInR = do
     (Just login) <- lookupPostParam "login"
-    (Just password) <- lookupPostParam "password"
+    (Just pass) <- lookupPostParam "password"
     maybeUser <- runDB $ getBy $ UniqueUser login
     case maybeUser of
         Nothing ->
             return "Error"
-        _ -> do
-            setCookie $ def { setCookieName = "login", setCookieValue = S8.pack $ T.unpack $ login }
-            return "OK"
+        Just (Entity _ user) ->
+            if (userPassword user) == pass
+                then do
+                    setCookie $ def { setCookieName = "login", setCookieValue = S8.pack $ T.unpack $ login }
+                    return "OK"
+            else return "Error"
 
 postHomeR :: Handler Html
 postHomeR = undefined
