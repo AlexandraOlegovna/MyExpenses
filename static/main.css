@@ -72,6 +72,10 @@ body {
   background-color: #428bca;
 }
 
+h4 {
+    display: inline-block;
+
+}
 
 /*
  * Main content

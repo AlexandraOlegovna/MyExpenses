@@ -67,6 +67,14 @@ postSignInR = do
                     return "OK"
             else return "Error"
 
+
+postSignOutR :: Handler Text
+postSignOutR = do
+    (Just login) <- lookupCookie "login"
+    _ <- deleteCookie "login" login
+    return "OK"
+
+
 postHomeR :: Handler Html
 postHomeR = undefined
     -- lp <- requireJsonBody :: Handler LogPass -- get the json body as Foo (assumes FromJSON instance)

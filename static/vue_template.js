@@ -4,7 +4,8 @@ Vue.component('demo-grid', {
     data: Array,
     columns: Array,
     filterKey: String,
-    icons: Object
+    icons: Object,
+    total: Number
   },
   data: function () {
     var sortOrders = {}
@@ -36,6 +37,15 @@ Vue.component('demo-grid', {
           return (a === b ? 0 : a > b ? 1 : -1) * order
         })
       }
+      if (sortKey == "date"){
+          data = data.slice().sort(function(a,b) {
+              a = a[sortKey];
+              b = b[sortKey];
+              a = a.split('/').reverse().join('');
+              b = b.split('/').reverse().join('');
+              return (a > b ? 1 : a < b ? -1 : 0)* order;
+            })
+      }
       return data
     }
   },
@@ -59,6 +69,7 @@ window.onload = function () {
     app = new Vue({
       el: '#demo',
       data: {
+        total : 0,
         searchQuery: '',
         gridColumns: ['kind', 'theme', 'item', 'cost', 'date'],
         gridIcons: {
@@ -76,6 +87,12 @@ window.onload = function () {
 
     $.post("/show", {}, 'json').done (data => {
             app.gridData = data;
-            console.log(data);
+            for (var i = 0; i < app.gridData.length; ++i)
+                if (app.gridData[i].kind == "-")
+                    app.total -= app.gridData[i].cost;
+                else app.total += app.gridData[i].cost;
+            build_data(app);
         });
+
+
 }

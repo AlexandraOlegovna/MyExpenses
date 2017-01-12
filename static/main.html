@@ -9,23 +9,35 @@
     <meta name="author" content="">
     <!-- <link rel="icon" href="../../favicon.ico"> -->
 
-    <title>Signin Template for Bootstrap</title>
-
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/bootstrap-datepicker3.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="/static/skill.css"/>
 
     <!-- Custom styles for this template -->
     <link href="/static/main.css" rel="stylesheet">
-
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src ="/static/vue_template.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/static/js/bootstrap-datepicker.min.js"> </script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- <script type="text/javascript" src="/static/skillsdata.js"></script>
+    <script type="text/javascript" src="/static/skill.js"></script> -->
 </head>
 <body>
+
+    <div id="skills">
+          <div id="skillmap">
+            <div class="skills-wrapper">
+              <div class="skills-sunburst"></div>
+              <div class="skills-chart">
+                <div id="skills-chart-breadcrumb"></div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 <div id="demo">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -45,16 +57,20 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">Table <span class="sr-only">(current)</span></a></li>
-        <li><a href="#">Plot</a></li>
+        <li><a href="#" id="plot">Plot</a></li>
       </ul>
       <div class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" v-model="searchQuery">
         </div>
-        <button class="btn btn-default" type="submit" form="add_form">Add</button>
+        <button class="btn btn-default" type="submit" form="add_form" style="background-color: #c8e6c9">Add</button>
+        <div class="form-group">
+            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+            <h4>Total: {{ total }}</h4>
         </div>
+    </div>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Sign Out</a></li>
+        <li><a id="signout" href="#">Sign Out</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -68,12 +84,15 @@
     :data="gridData"
     :columns="gridColumns"
     :filter-key="searchQuery"
-    :icons="gridIcons">
-
+    :icons="gridIcons"
+    :total="total">
   </demo-grid>
 </div>
 </div>
 
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="/static/skillsdata.js"></script>
+<script type="text/javascript" src="/static/skill.js"></script>
 
 <script type="text/x-template" id="grid-template">
 <div class = "table-responsive">
@@ -101,10 +120,14 @@
             </td>
             <td>
             <select id="theme" class="form-control" required>
-                  <option>Shop</option>
-                  <option>School</option>
                   <option>Appartment</option>
-                  <option>Clothes</option>
+                  <option>Car</option>
+                  <option>Сlothing</option>
+                  <option>Entertainment</option>
+                  <option>Food&Drinks</option>
+                  <option>Other</option>
+                  <option>Salary</option>
+                  <option>Travel</option>
                 </select>
             </td>
             <td><div class="form-inline">
@@ -132,7 +155,6 @@
           {{entry[key]}}
         </td>
       </tr>
-      <!-- <tr><td>hi, pretty! :)</td></tr> -->
     </tbody>
   </table>
 </form>
@@ -147,16 +169,33 @@
 
 <script>
 
-$(document).ready(function() {
+// $("plot").click( e => {
+//
+// })
 
+$(document).ready(function() {
+$(document).on('click', '#signout', function(e) {
+    console.log("hi");
+    $.post( "/signout", {})
+        .done(function( msg ) {
+            if (msg == "OK")
+            {
+                document.location.pathname = "/";
+            }
+            else
+                console.warn(msg);//TODO
+      });
+  })
+})
+
+$(document).ready(function() {
     $(document).on('submit', '#add_form', function(e) {
-            console.log('hi');
             e.preventDefault();
             var value = {
                 kind: $('#kind').val(),
                 theme: $('#theme').val(),
                 item: $('#item').val(),
-                cost: $('#cost').val() | 0,
+                cost: $('#cost').val() | 0 + 0.0,
                 date: $('#date').val()
             };
 
@@ -165,7 +204,14 @@ $(document).ready(function() {
                     if (msg == "OK")
                     {
                         app.gridData.push(value);
-
+                        $("form")[0][1].value = "+";
+                        $("form")[0][2].value = "Appartment";
+                        $("form")[0][3].value = "";
+                        $("form")[0][4].value = "";
+                        $("form")[0][5].value = "";
+                        if (value.kind == "-")
+                            app.total -= value.cost;
+                        else app.total += value.cost;
                     }
                     else
                         console.warn(msg);//TODO

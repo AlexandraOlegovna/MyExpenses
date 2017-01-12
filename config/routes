@@ -6,5 +6,6 @@
 /register RegisterR POST
 /signin SignInR POST
 /add AddR POST
+/signout SignOutR POST
 
 /show ShowExpensesR GET POST
