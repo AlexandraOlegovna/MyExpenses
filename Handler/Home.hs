@@ -40,10 +40,11 @@ getHomeR = sendFile "text/html" "static/index.html"
 --         setTitle "Welcome To Yesod!"
 --         $(widgetFile "homepage")
 
+lookupPostParams' params = sequence <$> traverse lookupPostParam params
+
 postRegisterR :: Handler Text
 postRegisterR = do
-    (Just login) <- lookupPostParam "login"
-    (Just password) <- lookupPostParam "password"
+    (Just [login, password]) <- lookupPostParams' ["login", "password"]
     maybeUser <- runDB $ getBy $ UniqueUser login
     case maybeUser of
         Nothing -> do
@@ -51,6 +52,7 @@ postRegisterR = do
             setCookie $ def { setCookieName = "login", setCookieValue = S8.pack $ T.unpack $ login }
             return "OK"
         _ -> return "Error"
+
 
 postSignInR :: Handler Text
 postSignInR = do
