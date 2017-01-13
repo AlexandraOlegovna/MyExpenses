@@ -23,21 +23,20 @@
     <script src="/static/js/bootstrap-datepicker.min.js"> </script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
-    <!-- <script type="text/javascript" src="/static/skillsdata.js"></script>
-    <script type="text/javascript" src="/static/skill.js"></script> -->
+
 </head>
 <body>
 
-    <div id="skills">
-          <div id="skillmap">
-            <div class="skills-wrapper">
-              <div class="skills-sunburst"></div>
-              <div class="skills-chart">
-                <div id="skills-chart-breadcrumb"></div>
-              </div>
-            </div>
+<div id="skills">
+      <div id="skillmap">
+        <div class="skills-wrapper">
+          <div class="skills-sunburst"></div>
+          <div class="skills-chart">
+            <div id="skills-chart-breadcrumb"></div>
           </div>
         </div>
+      </div>
+    </div>
 
 <div id="demo">
 <nav class="navbar navbar-default navbar-fixed-top">
@@ -56,10 +55,11 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Table <span class="sr-only">(current)</span></a></li>
+        <li class="active"><a href="#" id="table">Table
+            <span class="sr-only">(current)</span></a></li>
         <li><a href="#" id="plot">Plot</a></li>
       </ul>
-      <div class="navbar-form navbar-left">
+      <div id="search_block"class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" v-model="searchQuery">
         </div>
@@ -78,7 +78,7 @@
 
 
 <!-- demo root element -->
-<div class="container">
+<div id="container" class="container">
 
   <demo-grid
     :data="gridData"
@@ -142,7 +142,7 @@
                 </div></div >
             </td>
             <td>
-                <div class="input-group date" data-provide="datepicker" data-date-end-date="0d">
+                <div class="input-group date" data-provide="datepicker" data-date-end-date="0d" data-date-format="dd/mm/yyyy">
                     <input id="date" type="text" class="form-control" required>
                     <div class="input-group-addon">
                         <span class="glyphicon glyphicon-th"></span>
@@ -162,20 +162,40 @@
 
 </script>
 
-<script>
-    $.fn.datepicker.defaults.format = "dd.mm.yyyy";
-</script>
-
 
 <script>
 
-// $("plot").click( e => {
-//
-// })
+$(document).ready(function() {
+$(document).on('click', '#plot', function(e) {
+    $("#skills").html("<div id=\"skillmap\"> <div class=\"skills-wrapper\"> <div class=\"skills-sunburst\"></div><div class=\"skills-chart\"><div id=\"skills-chart-breadcrumb\"></div></div></div></div>");
+
+
+    $("#skills").css("display", "block");
+    $("#search_block").css("display", "none");
+    $("#container").css("display", "none");
+    $("#table").parent().removeClass("active");
+    $("#plot").parent().addClass("active");
+
+    build_data(app);
+
+  })
+})
+
+$(document).ready(function() {
+$(document).on('click', '#table', function(e) {
+    $("#skills").css("display", "none");
+    $("#search_block").css("display", "block");
+    $("#container").css("display", "block");
+    $("#plot").parent().removeClass("active");
+    $("#table").parent().addClass("active");
+
+  })
+})
+
 
 $(document).ready(function() {
 $(document).on('click', '#signout', function(e) {
-    console.log("hi");
+    // console.log("hi");
     $.post( "/signout", {})
         .done(function( msg ) {
             if (msg == "OK")

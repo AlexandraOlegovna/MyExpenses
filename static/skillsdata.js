@@ -1,22 +1,20 @@
-var skillsdata;
+var skillsdata = {};
 
-
-skillsdata = {
-  "All": {
-    "Appartment": [0],
-    "Car": [0],
-    "Сlothing": [0],
-    "Entertainment": [0],
-    "Food&Drinks": [0],
-    "Other": [0],
-    "Salary": [0],
-    "Travel": [0]
-}
-};
-
-var data = {};
+var data;
 function build_data(app) {
-
+    data = {};
+    skillsdata = {
+     "All": {
+       "Appartment": [0],
+       "Car": [0],
+       "Сlothing": [0],
+       "Entertainment": [0],
+       "Food&Drinks": [0],
+       "Other": [0],
+       "Salary": [0],
+       "Travel": [0]
+   }
+   };
     app.gridData.sort(date_sort);
 
 

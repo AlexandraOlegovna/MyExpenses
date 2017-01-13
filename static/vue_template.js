@@ -91,7 +91,7 @@ window.onload = function () {
                 if (app.gridData[i].kind == "-")
                     app.total -= app.gridData[i].cost;
                 else app.total += app.gridData[i].cost;
-            build_data(app);
+            // build_data(app);
         });
 
 

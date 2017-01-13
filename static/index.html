@@ -40,6 +40,8 @@
             <button id="register" type="submit" class="btn btn-lg btn-primary btn-block leftB">Register</button>
             <button id="signin" type="submit" class="btn btn-lg btn-primary btn-block rightB">Sign in</button>
         </div>
+        <span id="anotherLogin" class="help-block">Please use another login name</span>
+        <span id="incorrectPassword" class="help-block">Incorrect password or login. Please try again</span>
       </form>
 
     </div> <!-- /container -->
@@ -71,7 +73,17 @@ $( "#form" ).submit(e => {
             if (msg == "OK")
                 document.location.pathname = "/show";
             else
-                ;//TODO
+            {if (url == "/register"){
+                $("#incorrectPassword").css("display", "none");
+                $("#anotherLogin").css("display", "block");
+            }
+            else{
+                $("#incorrectPassword").css("display", "block");
+                $("#anotherLogin").css("display", "none");
+            }
+            $("#inputEmail")[0].value = "";
+            $("#inputPassword")[0].value = "";
+        }
       })
 });
 

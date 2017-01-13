@@ -1,7 +1,10 @@
 
 #skillmap .skills-wrapper {
   margin-top: 10px;
+  /*margin-right: 30px;*/
   overflow: auto;
+  display: flex;
+  justify-content: space-around;
 }
 #skillmap .skills-sunburst {
   float: left;
@@ -36,8 +39,4 @@
   stroke: #444;
   stroke-width: 1px;
   shape-rendering: geometricPrecision;
-}
-
-text{
-
 }

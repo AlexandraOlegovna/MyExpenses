@@ -23,6 +23,11 @@ body {
     margin-top: 0px !important;
 }
 
+#anotherLogin, #incorrectPassword{
+    color: #f44336;
+    display: none;
+}
+
 .form-signin {
   max-width: 330px;
   padding: 15px;
